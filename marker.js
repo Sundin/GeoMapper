@@ -3,7 +3,6 @@ function getMarker(item, geocoder) {
 
     return new Promise((resolve, reject) => {
         geocoder.geocode(searchQuery, function (results) {
-            console.table(results);
             var r = results[0];
             if (r) {
                 return resolve(L.marker(r.center).bindPopup(r.name));
