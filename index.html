@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -26,6 +28,34 @@
 
     <div id="mapid" style="width: 600px; height: 400px;"></div>
     <script>
+
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "Mindless-Sinner--Turn-on-the-Power.csv",
+                dataType: "text",
+                success: function (data) { processData(data); }
+            });
+        });
+
+        function processData(allText) {
+            var allTextLines = allText.split(/\r\n|\n/);
+            var headers = allTextLines[0].split(',');
+            var lines = [];
+
+            for (var i = 1; i < allTextLines.length; i++) {
+                var data = allTextLines[i].split(',');
+                if (data.length == headers.length) {
+                    var item = {};
+                    for (var j = 0; j < headers.length; j++) {
+                        item[headers[j].replace(/^\"+|\"+$/g, '')] = data[j].replace(/^\"+|\"+$/g, '');;
+                    }
+                    lines.push(item);
+                }
+            }
+            console.table(lines);
+        }
 
         var map = L.map('mapid').setView([51.505, -0.09], 13);
 
@@ -37,7 +67,7 @@
             marker;
 
         geocoder.geocode("Halmstadgatan 3, Göteborg", function (results) {
-            console.log(results);
+            console.table(results);
             var r = results[0];
             if (r) {
                 if (marker) {
