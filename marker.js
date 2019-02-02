@@ -14,8 +14,7 @@ function getMarker(item, geocoder) {
                     if (r) {
                         return resolve(L.marker(r.center).bindPopup(r.name));
                     } else {
-                        console.log('No result found for: ' + searchQuery);
-                        return reject();
+                        return reject(searchQuery);
                     }
                 });
             }
