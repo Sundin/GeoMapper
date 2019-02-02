@@ -4,12 +4,15 @@
 <head>
     <title>GeoMapper</title>
 
-    <link rel="stylesheet" type="text/css" href="index.css">
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+    <script src="./marker.js"></script>
+    <script src="./input.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
@@ -18,13 +21,11 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
-    <script src="./marker.js"></script>
-    <script src="./input.js"></script>
 </head>
 
 <body>
     <h1>GeoMapper</h1>
+
     <p>Please upload a valid CSV file using the button below. At a minumum the file needs to contain two columns titled
         <i>Shipping Address 1</i> and <i>Shipping City</i>.</p>
     <input type=file id='file' onchange="startRead()" />
@@ -33,7 +34,6 @@
         <p><strong>Warning!</strong> The following addresses could not be located:</p>
         <div id="warning-list"></div>
     </div>
-
 
     <div id="map"></div>
 

@@ -20,14 +20,12 @@ function processData(csvData) {
     document.getElementById("warning-list").innerHTML = "";
 
     const lines = readFromCsv(csvData);
-    console.table(lines);
 
     lines.forEach(item => {
         getMarker(item, geocoder).then(marker => {
             marker.addTo(map);
         }).catch(searchQuery => {
             document.getElementById("warning-section").style.display = "";
-            console.log('No result found for: ' + searchQuery);
             const warningHtml = "♠ " + searchQuery + "<br/>";
             document.getElementById("warning-list").innerHTML += warningHtml;
         });
