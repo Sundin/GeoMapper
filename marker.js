@@ -7,8 +7,17 @@ function getMarker(item, geocoder) {
             if (r) {
                 return resolve(L.marker(r.center).bindPopup(r.name));
             } else {
-                console.log('No result found for: ' + searchQuery);
-                return reject();
+                // Fallback to only city if street address not found
+                const backupSearchQuery = item['Shipping City']
+                geocoder.geocode(backupSearchQuery, function (results) {
+                    var r = results[0];
+                    if (r) {
+                        return resolve(L.marker(r.center).bindPopup(r.name));
+                    } else {
+                        console.log('No result found for: ' + searchQuery);
+                        return reject();
+                    }
+                });
             }
         });
     });
