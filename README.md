@@ -13,6 +13,6 @@ To try it out locally, simply open [index.html](./index.html) in your browser of
 ## Dependencies
 
 - leaflet
-- leaflet-control-geocoder
+- leaflet-control-geocoder: For reverse geocoding
 - Map data from OpenStreetMap
 - Map from Mapbox
