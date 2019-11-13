@@ -16,6 +16,38 @@
     <script src="./marker.js"></script>
     <script src="./input.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+    <script type="text/javascript">
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      var publicSpreadsheetUrl =
+        "https://docs.google.com/spreadsheets/d/" +
+        getParameterByName("id") +
+        "/edit?usp=sharing";
+
+      function init() {
+        Tabletop.init({
+          key: publicSpreadsheetUrl,
+          callback: showInfo,
+          simpleSheet: true
+        });
+      }
+
+      function showInfo(data, tabletop) {
+        loadFromGoogleSheets(data);
+      }
+
+      window.addEventListener("DOMContentLoaded", init);
+    </script>
+
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"

@@ -21,3 +21,27 @@ function getMarker(item, geocoder) {
     });
   });
 }
+
+function getMarkerWithGoogleSheetsData(item, geocoder) {
+  const searchQuery = item["Adress"];
+
+  return new Promise((resolve, reject) => {
+    geocoder.geocode(searchQuery, function(results) {
+      var r = results[0];
+      if (r) {
+        return resolve(
+          L.marker(r.center).bindPopup(
+            "<b>" +
+              item["Namn"] +
+              "</b><br/>" +
+              item["Adress"] +
+              "<br/><br/>" +
+              item["Information"]
+          )
+        );
+      } else {
+        return reject(searchQuery);
+      }
+    });
+  });
+}
