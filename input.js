@@ -18,23 +18,19 @@ function loaded(evt) {
 // window.addEventListener("DOMContentLoaded", loadFromGoogleSheets);
 
 function loadFromGoogleSheets(data) {
-  console.log(data);
-
   document.getElementById("warning-section").style.display = "none";
   document.getElementById("warning-list").innerHTML = "";
 
   data.forEach((item, index) => {
-    sleep(1000 * index).then(() => {
-      getMarkerWithGoogleSheetsData(item, geocoder)
-        .then(marker => {
-          marker.addTo(map);
-        })
-        .catch(searchQuery => {
-          document.getElementById("warning-section").style.display = "";
-          const warningHtml = "♠ " + searchQuery + "<br/>";
-          document.getElementById("warning-list").innerHTML += warningHtml;
-        });
-    });
+    getMarkerWithGoogleSheetsData(item, geocoder, index)
+      .then(marker => {
+        marker.addTo(map);
+      })
+      .catch(searchQuery => {
+        document.getElementById("warning-section").style.display = "";
+        const warningHtml = "♠ " + searchQuery + "<br/>";
+        document.getElementById("warning-list").innerHTML += warningHtml;
+      });
   });
 }
 
@@ -77,8 +73,4 @@ function readFromCsv(allText) {
   }
 
   return lines;
-}
-
-function sleep(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
 }

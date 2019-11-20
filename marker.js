@@ -22,6 +22,8 @@ function getMarker(item, geocoder) {
   });
 }
 
+let index = -1;
+
 function getMarkerWithGoogleSheetsData(item, geocoder) {
   return new Promise((resolve, reject) => {
     if (item["Lat"] && item["Lng"]) {
@@ -31,14 +33,16 @@ function getMarkerWithGoogleSheetsData(item, geocoder) {
     }
 
     const searchQuery = item["Adress"];
-    geocoder.geocode(searchQuery, function(results) {
-      var r = results[0];
-      console.log(r.center);
-      if (r) {
-        return resolve(putDetailedMarkerOnMap(item, r.center));
-      } else {
-        return reject(searchQuery);
-      }
+    index++;
+    sleep(1000 * index).then(() => {
+      geocoder.geocode(searchQuery, function(results) {
+        var r = results[0];
+        if (r) {
+          return resolve(putDetailedMarkerOnMap(item, r.center));
+        } else {
+          return reject(searchQuery);
+        }
+      });
     });
   });
 }
@@ -56,4 +60,8 @@ function putDetailedMarkerOnMap(item, coordinates) {
       )
     );
   });
+}
+
+function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
 }
