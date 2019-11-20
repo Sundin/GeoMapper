@@ -21,10 +21,16 @@ function loadFromGoogleSheets(data) {
   document.getElementById("warning-section").style.display = "none";
   document.getElementById("warning-list").innerHTML = "";
 
+  document.getElementById("info-section").innerHTML =
+    "Loaded 0 of " + data.length + " locations";
+
   data.forEach((item, index) => {
     getMarkerWithGoogleSheetsData(item, geocoder, index)
       .then(marker => {
         marker.addTo(map);
+        const loadedItems = index + 1;
+        document.getElementById("info-section").innerHTML =
+          "Loaded " + loadedItems + " of " + data.length + " locations";
       })
       .catch(searchQuery => {
         document.getElementById("warning-section").style.display = "";
