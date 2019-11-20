@@ -16,3 +16,4 @@ To try it out locally, simply open [index.html](./index.html) in your browser of
 - leaflet-control-geocoder: For reverse geocoding
 - Map data from OpenStreetMap
 - Map from Mapbox
+- tabletop: Read data from Google Sheets.

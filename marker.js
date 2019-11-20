@@ -23,25 +23,37 @@ function getMarker(item, geocoder) {
 }
 
 function getMarkerWithGoogleSheetsData(item, geocoder) {
-  const searchQuery = item["Adress"];
-
   return new Promise((resolve, reject) => {
+    if (item["Lat"] && item["Lng"]) {
+      return resolve(
+        putDetailedMarkerOnMap(item, { lat: item["Lat"], lng: item["Lng"] })
+      );
+    }
+
+    const searchQuery = item["Adress"];
     geocoder.geocode(searchQuery, function(results) {
       var r = results[0];
+      console.log(r.center);
       if (r) {
-        return resolve(
-          L.marker(r.center).bindPopup(
-            "<b>" +
-              item["Namn"] +
-              "</b><br/>" +
-              item["Adress"] +
-              "<br/><br/>" +
-              item["Information"]
-          )
-        );
+        return resolve(putDetailedMarkerOnMap(item, r.center));
       } else {
         return reject(searchQuery);
       }
     });
+  });
+}
+
+function putDetailedMarkerOnMap(item, coordinates) {
+  return new Promise((resolve, reject) => {
+    return resolve(
+      L.marker(coordinates).bindPopup(
+        "<b>" +
+          item["Namn"] +
+          "</b><br/>" +
+          item["Adress"] +
+          "<br/><br/>" +
+          item["Information"]
+      )
+    );
   });
 }
