@@ -24,11 +24,9 @@ function loadFromGoogleSheets(data) {
   document.getElementById("warning-list").innerHTML = "";
 
   data.forEach((item, index) => {
-    console.log("enter loop");
     sleep(1000 * index).then(() => {
       getMarkerWithGoogleSheetsData(item, geocoder)
         .then(marker => {
-          console.log("placing on map");
           marker.addTo(map);
         })
         .catch(searchQuery => {
