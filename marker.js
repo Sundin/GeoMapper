@@ -38,6 +38,8 @@ function getMarkerWithGoogleSheetsData(item, geocoder) {
       geocoder.geocode(searchQuery, function(results) {
         var r = results[0];
         if (r) {
+          item.Lat = r.center.lat;
+          item.Lng = r.center.lng;
           return resolve(putDetailedMarkerOnMap(item, r.center));
         } else {
           return reject(searchQuery);

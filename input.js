@@ -18,6 +18,7 @@ function loaded(evt) {
 // window.addEventListener("DOMContentLoaded", loadFromGoogleSheets);
 
 let categories = {};
+let coordinates = [];
 
 function loadFromGoogleSheets(data) {
   document.getElementById("warning-section").style.display = "none";
@@ -26,9 +27,12 @@ function loadFromGoogleSheets(data) {
   document.getElementById("info-section").innerHTML =
     "Loaded 0 of " + data.length + " locations";
 
-  addMarkersToMap(data).then(() => {
+  addMarkersToMap(data).then(processedData => {
     L.control.layers({}, categories).addTo(map);
     document.getElementById("info-section").innerHTML = "";
+    coordinates = processedData.map(item => {
+      return [item["Lat"], item["Lng"]];
+    });
   });
 }
 
@@ -54,7 +58,7 @@ function addMarkersToMap(data) {
           document.getElementById("info-section").innerHTML =
             "Loaded " + loadedItems + " of " + data.length + " locations";
           if (index === data.length - 1) {
-            resolve({});
+            resolve(data);
           }
         })
         .catch(searchQuery => {
