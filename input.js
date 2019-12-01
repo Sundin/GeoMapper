@@ -33,22 +33,33 @@ function loadFromGoogleSheets(data) {
     coordinates = processedData.map(item => {
       return [item["Lat"], item["Lng"]];
     });
+
+    zoomToFit();
   });
 }
 
+let allMarkers = null;
+function zoomToFit() {
+  const bounds = allMarkers.getBounds().pad(0.1);
+  map.fitBounds(bounds);
+}
+
 function addMarkersToMap(data) {
+  allMarkers = new L.featureGroup([]);
+
   return new Promise((resolve, reject) => {
     data.forEach((item, index) => {
       if (item["Kategori"]) {
         const categoryName = item["Kategori"];
         if (!categories[categoryName]) {
-          categories[categoryName] = L.layerGroup([]);
+          categories[categoryName] = L.featureGroup([]);
           // Add layer to map in order to show it by default:
           map.addLayer(categories[categoryName]);
         }
       }
       getMarkerWithGoogleSheetsData(item, geocoder, index)
         .then(marker => {
+          marker.addTo(allMarkers);
           if (item["Kategori"]) {
             marker.addTo(categories[item["Kategori"]]);
           } else {
