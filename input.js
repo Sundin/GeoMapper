@@ -48,6 +48,7 @@ function addMarkersToMap(data) {
   allMarkers = new L.featureGroup([]);
 
   return new Promise((resolve, reject) => {
+    let processedData = data;
     data.forEach((item, index) => {
       if (item["Kategori"]) {
         const categoryName = item["Kategori"];
@@ -69,7 +70,7 @@ function addMarkersToMap(data) {
           document.getElementById("info-section").innerHTML =
             "Loaded " + loadedItems + " of " + data.length + " locations";
           if (index === data.length - 1) {
-            resolve(data);
+            resolve(processedData);
           }
         })
         .catch(searchQuery => {

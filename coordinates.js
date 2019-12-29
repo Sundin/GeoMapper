@@ -1,12 +1,10 @@
 /**
  * OpenStreetMap API has a limit of 1 request per second for reverse geocoding.
  * In order to load large datasets, you should cache the coordinates yourself in order to speed things up the next time.
- * To do this, the coordinates should be added to the Lat and Lng columns in your Google Spreadsheet.
+ * To do this, the coordinates should be added to the Koordinater column in your Google Spreadsheet.
  * In order to make this process a bit smoother,
  * you can press the "Copy coordinates" button and the coordinates for the whole spreadsheet will be copied into your clipboard.
  *  */
-
-var array = [[0, 1, 1, 0], [1, 0, 0, 1], [1, 0, 0, 1], [0, 1, 1, 0]];
 
 // A button to trigger the copy action.
 $("#copy").on("click", function() {
@@ -17,7 +15,7 @@ function copyCsv(rows) {
   var processRow = function(row) {
     var finalVal = "";
     for (var j = 0; j < row.length; j++) {
-      var innerValue = row[j] === null ? "" : row[j].toString();
+      var innerValue = row[j] ? row[j].toString() : "";
       if (row[j] instanceof Date) {
         innerValue = row[j].toLocaleString();
       }
