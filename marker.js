@@ -26,10 +26,16 @@ let index = -1;
 
 function getMarkerWithGoogleSheetsData(item, geocoder) {
   return new Promise((resolve, reject) => {
-    if (item["Lat"] && item["Lng"]) {
-      return resolve(
-        putDetailedMarkerOnMap(item, { lat: item["Lat"], lng: item["Lng"] })
-      );
+    if (item["Koordinater"]) {
+      const coordinates = item["Koordinater"].split(",");
+      if (coordinates[0] && coordinates[1]) {
+        item["Lat"] = coordinates[0];
+        item["Lng"] = coordinates[1];
+
+        return resolve(
+          putDetailedMarkerOnMap(item, { lat: item["Lat"], lng: item["Lng"] })
+        );
+      }
     }
 
     const searchQuery = item["Adress"];
