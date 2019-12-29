@@ -68,11 +68,10 @@
   </head>
 
   <body>
-    <h1>GeoMapper</h1>
+    <h1>Roadtripkartan</h1>
 
     <p>
-      Please upload a valid CSV file using the button below. At a minumum the
-      file needs to contain two columns titled <i>Address</i> and <i>City</i>.
+      Ladda upp från fil:
     </p>
     <input type="file" id="file" onchange="startRead()" />
 
@@ -115,7 +114,7 @@
       ).addTo(map);
     </script>
 
-    <button id="copy">Copy</button>
+    <button id="copy">Kopiera koordinater</button>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="./coordinates.js"></script>
   </body>
