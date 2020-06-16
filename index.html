@@ -8,7 +8,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-
     <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
 
     <link rel="stylesheet" type="text/css" href="index.css" />
@@ -37,7 +36,7 @@
         Tabletop.init({
           key: publicSpreadsheetUrl,
           callback: showInfo,
-          simpleSheet: true
+          simpleSheet: true,
         });
       }
 
@@ -65,6 +64,16 @@
       href="./leaflet-control-geocoder/dist/Control.Geocoder.css"
     />
     <script src="./leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="./Leaflet.markercluster-1.4.1/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./Leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css"
+    />
+    <script src="./Leaflet.markercluster-1.4.1/dist/leaflet.markercluster.js"></script>
   </head>
 
   <body>
@@ -76,7 +85,7 @@
     <input type="file" id="file" onchange="startRead()" />
 
     <div id="info-section"></div>
-    <div id="warning-section" style="display:none">
+    <div id="warning-section" style="display: none;">
       <p>
         <strong>Warning!</strong> The following addresses could not be located:
       </p>
@@ -97,7 +106,7 @@
 
       var geocoder = L.Control.Geocoder.nominatim(),
         control = L.Control.geocoder({
-          geocoder: geocoder
+          geocoder: geocoder,
         }).addTo(map),
         marker;
 
@@ -109,7 +118,7 @@
             'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
             '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          id: "mapbox.streets"
+          id: "mapbox.streets",
         }
       ).addTo(map);
     </script>

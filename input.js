@@ -27,10 +27,10 @@ function loadFromGoogleSheets(data) {
   document.getElementById("info-section").innerHTML =
     "Loaded 0 of " + data.length + " locations";
 
-  addMarkersToMap(data).then(processedData => {
+  addMarkersToMap(data).then((processedData) => {
     L.control.layers({}, categories).addTo(map);
     document.getElementById("info-section").innerHTML = "";
-    coordinates = processedData.map(item => {
+    coordinates = processedData.map((item) => {
       return [item["Lat"], item["Lng"]];
     });
 
@@ -46,6 +46,8 @@ function zoomToFit() {
 
 function addMarkersToMap(data) {
   allMarkers = new L.featureGroup([]);
+  categories["Ingen kategori"] = L.markerClusterGroup();
+  map.addLayer(categories["Ingen kategori"]);
 
   return new Promise((resolve, reject) => {
     let processedData = data;
@@ -53,18 +55,18 @@ function addMarkersToMap(data) {
       if (item["Kategori"]) {
         const categoryName = item["Kategori"];
         if (!categories[categoryName]) {
-          categories[categoryName] = L.featureGroup([]);
+          categories[categoryName] = L.markerClusterGroup();
           // Add layer to map in order to show it by default:
           map.addLayer(categories[categoryName]);
         }
       }
       getMarkerWithGoogleSheetsData(item, geocoder, index)
-        .then(marker => {
+        .then((marker) => {
           marker.addTo(allMarkers);
           if (item["Kategori"]) {
             marker.addTo(categories[item["Kategori"]]);
           } else {
-            marker.addTo(map);
+            marker.addTo(categories["Ingen kategori"]);
           }
           const loadedItems = index + 1;
           document.getElementById("info-section").innerHTML =
@@ -73,7 +75,7 @@ function addMarkersToMap(data) {
             resolve(processedData);
           }
         })
-        .catch(searchQuery => {
+        .catch((searchQuery) => {
           document.getElementById("warning-section").style.display = "";
           const warningHtml = "♠ " + searchQuery + "<br/>";
           document.getElementById("warning-list").innerHTML += warningHtml;
@@ -88,12 +90,12 @@ function processData(csvData) {
 
   const lines = readFromCsv(csvData);
 
-  lines.forEach(item => {
+  lines.forEach((item) => {
     getMarker(item, geocoder)
-      .then(marker => {
+      .then((marker) => {
         marker.addTo(map);
       })
-      .catch(searchQuery => {
+      .catch((searchQuery) => {
         document.getElementById("warning-section").style.display = "";
         const warningHtml = "♠ " + searchQuery + "<br/>";
         document.getElementById("warning-list").innerHTML += warningHtml;

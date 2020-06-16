@@ -17,3 +17,4 @@ To try it out locally, simply open [index.html](./index.html) in your browser of
 - Map data from OpenStreetMap
 - Map from Mapbox
 - tabletop: Read data from Google Sheets.
+- [Leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster) - For grouping markers on the map.
