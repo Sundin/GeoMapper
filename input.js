@@ -46,8 +46,6 @@ function zoomToFit() {
 
 function addMarkersToMap(data) {
   allMarkers = new L.featureGroup([]);
-  categories["Ingen kategori"] = L.markerClusterGroup();
-  map.addLayer(categories["Ingen kategori"]);
 
   return new Promise((resolve, reject) => {
     let processedData = data;
