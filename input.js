@@ -58,7 +58,9 @@ function addMarkersToMap(data) {
 
       const categoryNames = item["Kategori"].split(",");
       categoryNames.forEach((categoryName) => {
-        categoryName = categoryName.trim();
+        categoryName = categoryName.trim().toLowerCase();
+        categoryName =
+          categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
         if (!categories[categoryName]) {
           console.log("Creating " + categoryName + ".");
           categories[categoryName] = L.markerClusterGroup();
