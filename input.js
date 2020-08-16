@@ -52,41 +52,37 @@ function addMarkersToMap(data) {
   return new Promise((resolve, reject) => {
     let processedData = data;
     data.forEach((item, index) => {
-      if (item["Kategori"]) {
-        const categoryNames = item["Kategori"].split(",");
-        categoryNames.forEach((categoryName) => {
-          categoryName = categoryName.trim();
-          if (!categories[categoryName]) {
-            categories[categoryName] = L.markerClusterGroup();
-            // Add layer to map in order to show it by default:
-            map.addLayer(categories[categoryName]);
-          }
-        });
+      if (!item["Kategori"]) {
+        item["Kategori"] = "Ingen kategori";
       }
-      getMarkerWithGoogleSheetsData(item, geocoder, index)
-        .then((marker) => {
-          marker.addTo(allMarkers);
-          if (item["Kategori"]) {
-            const categorieNames = item["Kategori"].split(",");
-            categorieNames.forEach((categoryName) => {
-              categoryName = categoryName.trim();
-              marker.addTo(categories[categoryName]);
-            });
-          } else {
-            marker.addTo(categories["Ingen kategori"]);
-          }
-          const loadedItems = index + 1;
-          document.getElementById("info-section").innerHTML =
-            "Loaded " + loadedItems + " of " + data.length + " locations";
-          if (index === data.length - 1) {
-            resolve(processedData);
-          }
-        })
-        .catch((searchQuery) => {
-          document.getElementById("warning-section").style.display = "";
-          const warningHtml = "♠ " + searchQuery + "<br/>";
-          document.getElementById("warning-list").innerHTML += warningHtml;
-        });
+
+      const categoryNames = item["Kategori"].split(",");
+      categoryNames.forEach((categoryName) => {
+        categoryName = categoryName.trim();
+        if (!categories[categoryName]) {
+          console.log("Creating " + categoryName + ".");
+          categories[categoryName] = L.markerClusterGroup();
+          // Add layer to map in order to show it by default:
+          map.addLayer(categories[categoryName]);
+        }
+
+        getMarkerWithGoogleSheetsData(item, geocoder, index)
+          .then((marker) => {
+            marker.addTo(allMarkers);
+            marker.addTo(categories[categoryName]);
+            const loadedItems = index + 1;
+            document.getElementById("info-section").innerHTML =
+              "Loaded " + loadedItems + " of " + data.length + " locations";
+            if (index === data.length - 1) {
+              resolve(processedData);
+            }
+          })
+          .catch((searchQuery) => {
+            document.getElementById("warning-section").style.display = "";
+            const warningHtml = "♠ " + searchQuery + "<br/>";
+            document.getElementById("warning-list").innerHTML += warningHtml;
+          });
+      });
     });
   });
 }
