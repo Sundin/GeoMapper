@@ -55,6 +55,7 @@ function addMarkersToMap(data) {
       if (item["Kategori"]) {
         const categoryNames = item["Kategori"].split(",");
         categoryNames.forEach((categoryName) => {
+          categoryName = categoryName.trim();
           if (!categories[categoryName]) {
             categories[categoryName] = L.markerClusterGroup();
             // Add layer to map in order to show it by default:
@@ -68,6 +69,7 @@ function addMarkersToMap(data) {
           if (item["Kategori"]) {
             const categorieNames = item["Kategori"].split(",");
             categorieNames.forEach((categoryName) => {
+              categoryName = categoryName.trim();
               marker.addTo(categories[categoryName]);
             });
           } else {
