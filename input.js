@@ -64,6 +64,11 @@ function addMarkersToMap(data) {
           categories[categoryName] = L.markerClusterGroup();
           // Add layer to map in order to show it by default:
           map.addLayer(categories[categoryName]);
+
+          var $button = $(
+            `<input type="button" class="selectCategory" value="${categoryName}" />`
+          );
+          $button.appendTo($("#categoryButtons"));
         }
 
         getMarkerWithGoogleSheetsData(item, geocoder, index)
