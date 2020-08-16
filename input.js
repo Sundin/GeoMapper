@@ -53,18 +53,23 @@ function addMarkersToMap(data) {
     let processedData = data;
     data.forEach((item, index) => {
       if (item["Kategori"]) {
-        const categoryName = item["Kategori"];
-        if (!categories[categoryName]) {
-          categories[categoryName] = L.markerClusterGroup();
-          // Add layer to map in order to show it by default:
-          map.addLayer(categories[categoryName]);
-        }
+        const categoryNames = item["Kategori"].split(",");
+        categoryNames.forEach((categoryName) => {
+          if (!categories[categoryName]) {
+            categories[categoryName] = L.markerClusterGroup();
+            // Add layer to map in order to show it by default:
+            map.addLayer(categories[categoryName]);
+          }
+        });
       }
       getMarkerWithGoogleSheetsData(item, geocoder, index)
         .then((marker) => {
           marker.addTo(allMarkers);
           if (item["Kategori"]) {
-            marker.addTo(categories[item["Kategori"]]);
+            const categorieNames = item["Kategori"].split(",");
+            categorieNames.forEach((categoryName) => {
+              marker.addTo(categories[categoryName]);
+            });
           } else {
             marker.addTo(categories["Ingen kategori"]);
           }
