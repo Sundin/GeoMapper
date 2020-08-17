@@ -18,9 +18,9 @@ function loaded(evt) {
 // window.addEventListener("DOMContentLoaded", loadFromGoogleSheets);
 
 let categories = {};
-let coordinates = [];
+let markerCoordinates = {};
 
-function loadFromGoogleSheets(data) {
+function loadFromGoogleSheets(data, sheetName) {
   document.getElementById("warning-section").style.display = "none";
   document.getElementById("warning-list").innerHTML = "";
 
@@ -30,7 +30,7 @@ function loadFromGoogleSheets(data) {
   addMarkersToMap(data).then((processedData) => {
     L.control.layers({}, categories).addTo(map);
     document.getElementById("info-section").innerHTML = "";
-    coordinates = processedData.map((item) => {
+    markerCoordinates[sheetName] = processedData.map((item) => {
       return [item["Lat"], item["Lng"]];
     });
 
@@ -60,7 +60,6 @@ function addMarkersToMap(data) {
         categoryName =
           categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
         if (!categories[categoryName]) {
-          console.log("Creating " + categoryName + ".");
           categories[categoryName] = L.markerClusterGroup();
           // Add layer to map in order to show it by default:
           map.addLayer(categories[categoryName]);

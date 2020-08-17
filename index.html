@@ -35,13 +35,20 @@
       function init() {
         Tabletop.init({
           key: publicSpreadsheetUrl,
-          callback: showInfo,
-          simpleSheet: true,
+          callback: loadDataCallback,
+          simpleSheet: false,
         });
       }
 
-      function showInfo(data, tabletop) {
-        loadFromGoogleSheets(data);
+      function loadDataCallback(data, tabletop) {
+        tabletop.foundSheetNames.forEach((sheet) => {
+          loadFromGoogleSheets(data[sheet].elements, sheet);
+
+          var $button = $(
+            `<input type="button" class="copyMarkerCoordinates" value="${sheet}" />`
+          );
+          $button.appendTo($("#coordinateButtons"));
+        });
       }
 
       window.addEventListener("DOMContentLoaded", init);
@@ -102,13 +109,6 @@
       />
     </div>
 
-    <p>
-      Open Source! Source code available at:
-      <a href="https://github.com/Sundin/GeoMapper"
-        >https://github.com/Sundin/GeoMapper</a
-      >
-    </p>
-
     <script>
       var map = L.map("map").setView([55.5, 7.5], 4);
 
@@ -132,7 +132,22 @@
     </script>
 
     <hr />
-    <button id="copy">Kopiera koordinater</button>
+    <div id="coordinateButtons">
+      Kopiera koordinater
+      <br />
+      Välj flik:
+      <br />
+    </div>
+
+    <hr />
+
+    <p>
+      Open Source! Source code available at:
+      <a href="https://github.com/Sundin/GeoMapper"
+        >https://github.com/Sundin/GeoMapper</a
+      >
+    </p>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="./coordinates.js"></script>
     <script src="./buttons.js"></script>
