@@ -28,14 +28,17 @@ function loadFromGoogleSheets(data, sheetName) {
     "Loaded 0 of " + data.length + " locations";
 
   addMarkersToMap(data).then((processedData) => {
-    L.control.layers({}, categories).addTo(map);
     document.getElementById("info-section").innerHTML = "";
     markerCoordinates[sheetName] = processedData.map((item) => {
       return [item["Lat"], item["Lng"]];
     });
-
-    zoomToFit();
   });
+}
+
+function finishedLoadingData() {
+  L.control.layers({}, categories).addTo(map);
+
+  zoomToFit();
 }
 
 let allMarkers = null;
