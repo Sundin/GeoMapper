@@ -36,9 +36,13 @@ function loadFromGoogleSheets(data, sheetName) {
 }
 
 function finishedLoadingData() {
-  L.control.layers({}, categories).addTo(map);
+  const za = L.control.layers({}, categories).addTo(map);
+  console.log(za);
 
-  zoomToFit();
+  // Ugly workaround: https://github.com/Leaflet/Leaflet/issues/3280#issuecomment-305803420
+  window.setTimeout(() => {
+    zoomToFit();
+  }, 500);
 }
 
 let allMarkers = null;
